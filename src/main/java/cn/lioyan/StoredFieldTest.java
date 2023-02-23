@@ -35,18 +35,28 @@ public class StoredFieldTest
         Directory directory = FSDirectory.open(Paths.get("tempPath"));
         // 指定config
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        config.setUseCompoundFile(false);
         // 建立IndexWriter
         IndexWriter w = new IndexWriter(directory, config);
         // 创建document
-        Document doc = new Document();
-        doc.add(new TextField("title", "Lucene in action", Field.Store.YES));
-        doc.add(new StringField("isbn", "193398817", Field.Store.YES));
-        doc.add(new StoredField("visit", 5));
-        doc.add(new SortedNumericDocValuesField("visit", 5));
-        // 添加document到indexWriter
-        w.addDocument(doc);
+        for (int i = 0; i < 100000; i++)
+        {
+            add(w);
+        }
         // 落盘flush
         w.close();
 
+    }
+
+    public static void add(  IndexWriter w)
+        throws IOException
+    {
+        Document doc = new Document();
+//        doc.add(new TextField("title", "liy", Field.Store.YES));
+//        doc.add(new StringField("isbn", "193398817", Field.Store.YES));
+        doc.add(new StoredField("visit", 25));
+//        doc.add(new SortedNumericDocValuesField("visit", 5));
+        // 添加document到indexWriter
+        w.addDocument(doc);
     }
 }
