@@ -41,21 +41,23 @@ public class StoredFieldTest
         // 创建document
         for (int i = 0; i < 100000; i++)
         {
-            add(w);
+            add(w,i%2 == 0);
         }
         // 落盘flush
         w.close();
 
     }
 
-    public static void add(  IndexWriter w)
+    public static void add(  IndexWriter w,Boolean fa)
         throws IOException
     {
         Document doc = new Document();
-//        doc.add(new TextField("title", "liy", Field.Store.YES));
-//        doc.add(new StringField("isbn", "193398817", Field.Store.YES));
+        doc.add(new TextField("title", "liy", Field.Store.YES));
+        if(fa){
+            doc.add(new StringField("isbn", "193398817", Field.Store.YES));
+        }
         doc.add(new StoredField("visit", 25));
-//        doc.add(new SortedNumericDocValuesField("visit", 5));
+        doc.add(new SortedNumericDocValuesField("visit", 5));
         // 添加document到indexWriter
         w.addDocument(doc);
     }

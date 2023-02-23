@@ -33,7 +33,17 @@ IndexHeader 非位两部分，第一部分为codeHeader ，所有文件都统一
 
 # 2.2 chunk
 
-之后就是压缩后的文本内容
+之后就是压缩后的文本内容,未压缩时，格式如下：
+
+- infoAndBits :vlong 类型， 最后3位表示数据类型、其他位当前字段编号
+- body： 文本内容
+
+
+# 3 footer
+
+- footerCode： ~codeHeader
+- 32位 固定 位 0
+- crc32 验证
 
 
 
