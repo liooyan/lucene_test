@@ -3,6 +3,11 @@ package cn.lioyan;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
@@ -20,13 +25,13 @@ public class StoredFieldTest
 {
 
     public static void main(String[] args)
-        throws IOException
+        throws IOException, ParseException
     {
         MAIN();
     }
 
     public static void MAIN()
-        throws IOException
+        throws IOException, ParseException
     {
         // 指定analyzer
         StandardAnalyzer analyzer = new StandardAnalyzer();
@@ -45,6 +50,7 @@ public class StoredFieldTest
         }
         // 落盘flush
         w.close();
+        read(  );
 
     }
 
@@ -52,7 +58,7 @@ public class StoredFieldTest
         throws IOException
     {
         Document doc = new Document();
-        doc.add(new TextField("title", "liy", Field.Store.YES));
+        doc.add(new TextField("title", "This is the text to be indexed.", Field.Store.YES));
         if(fa){
             doc.add(new StringField("isbn", "193398817", Field.Store.YES));
         }
@@ -60,5 +66,26 @@ public class StoredFieldTest
         doc.add(new SortedNumericDocValuesField("visit", 5));
         // 添加document到indexWriter
         w.addDocument(doc);
+    }
+    public static void read(  )
+        throws IOException, ParseException
+    {
+        // 指定analyzer
+        StandardAnalyzer analyzer = new StandardAnalyzer();
+        Directory directory = FSDirectory.open(Paths.get("tempPath"));
+        // Now search the index:
+        DirectoryReader ireader = DirectoryReader.open(directory);
+        IndexSearcher isearcher = new IndexSearcher(ireader);
+        // Parse a simple query that searches for "text":
+        QueryParser parser = new QueryParser("title", analyzer);
+        Query query = parser.parse("text");
+        ScoreDoc[] hits = isearcher.search(query, Integer.MAX_VALUE).scoreDocs;
+        // Iterate through the results:
+        for (int i = 0; i < hits.length; i++) {
+            Document hitDoc = isearcher.doc(hits[i].doc);
+            IndexableField title = hitDoc.getField("title");
+            System.out.println(title);
+        }
+        ireader.close();
     }
 }
