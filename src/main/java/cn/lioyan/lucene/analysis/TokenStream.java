@@ -51,7 +51,7 @@ public class TokenStream {
     public static void main(String[] args) {
         Analyzer aly1 = new StandardAnalyzer();
 
-        String str = "hello kim,I am dennisit,我是 中国人,my email is dennisit@163.com, and my QQ is 1325103287";
+        String str = "hello kim,。I am dennisit,我是 中国人,my email is dennisit@163.com, and my QQ is 1325103287";
 
         TokenStream.displayToken(str, aly1);
     }
