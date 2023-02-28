@@ -42,12 +42,6 @@ public class DocValueTest
         IndexWriter w = new IndexWriter(directory, config);
         addDoc(w, "Lucene in Action", "193398817", -5, new int[]{1,2}, new String[]{"los angles", "beijing"});
         addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
-        addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
-        addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
-        addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
-        addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
-        addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
-        addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
         addDoc(w, "Managing Gigabytes", "55063554A", 12, new int[]{0, 1, 2}, new String[]{"shenzhen", "guangzhou"});
         addDoc(w, "The Art of Computer Science", "9900333X", 2, new int[]{10, 4, 3}, new String[]{"shanghai", "los angles"});
         addDoc(w, "C++ Primer", "914324235", 11, new int[]{0, 5, 2, 3}, new String[]{"beijing", "shenzhen"});
@@ -63,9 +57,9 @@ public class DocValueTest
 
         // the "title" arg specifies the default field to use
         // when no field is explicitly specified in the query.
-        // Query q = new TermQuery(new Term("title", querystr));
-        // BooleanQuery query = new BooleanQuery();
-        MatchAllDocsQuery q = new MatchAllDocsQuery();
+         Query q = new TermQuery(new Term("title", querystr));
+//         BooleanQuery query = new BooleanQuery();
+//        MatchAllDocsQuery q = new MatchAllDocsQuery();
 
         //sort
         SortField visitSort = new SortedNumericSortField("visit", SortField.Type.INT, true);
