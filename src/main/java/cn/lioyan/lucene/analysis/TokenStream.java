@@ -2,7 +2,8 @@ package cn.lioyan.lucene.analysis;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.*;
+import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
 
 import java.io.IOException;
@@ -38,10 +39,24 @@ public class TokenStream {
             org.apache.lucene.analysis.TokenStream stream  = analyzer.tokenStream("", new StringReader(str));
             //保存相应词汇
             CharTermAttribute cta = stream.getAttribute(CharTermAttribute.class);
+            TermToBytesRefAttribute    termAttribute = stream.getAttribute(TermToBytesRefAttribute.class);
+            TermFrequencyAttribute    termFreqAttribute = stream.addAttribute(TermFrequencyAttribute.class);
+            PositionIncrementAttribute    posIncrAttribute = stream.addAttribute(PositionIncrementAttribute.class);
+            OffsetAttribute       offsetAttribute = stream.addAttribute(OffsetAttribute.class);
+            PayloadAttribute    payloadAttribute = stream.getAttribute(PayloadAttribute.class);
             stream.reset();
             while(stream.incrementToken()){
+                BytesRef bytesRef = termAttribute.getBytesRef();
+                int termFrequency = termFreqAttribute.getTermFrequency();
+                int positionIncrement = posIncrAttribute.getPositionIncrement();
+                int start = offsetAttribute.startOffset();
+                int end = offsetAttribute.endOffset();
+//                BytesRef payload = payloadAttribute.getPayload();
                 System.out.print("[" + cta + "]");
+                System.out.print("[" + termFrequency + "]");
+                System.out.print("[" + positionIncrement + "]");
             }
+            stream.end();
             System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,8 +66,11 @@ public class TokenStream {
     public static void main(String[] args) {
         Analyzer aly1 = new StandardAnalyzer();
 
-        String str = "hello kim,。I am dennisit,我是 中国人,my email is dennisit@163.com, and my QQ is 1325103287";
+        String str = "hello kim kim,I am dennisit dennisit,我是 中国人,my email is dennisit@163.com, and my QQ is 1325103287";
 
+        TokenStream.displayToken(str, aly1);
+        TokenStream.displayToken(str, aly1);
+        TokenStream.displayToken(str, aly1);
         TokenStream.displayToken(str, aly1);
     }
 }
