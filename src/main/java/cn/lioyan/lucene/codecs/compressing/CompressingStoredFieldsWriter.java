@@ -1,5 +1,7 @@
 package cn.lioyan.lucene.codecs.compressing;
 
+import org.apache.lucene.codecs.compressing.Compressor;
+import org.apache.lucene.codecs.compressing.FieldsIndexWriter;
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.SegmentInfo;
@@ -38,6 +40,19 @@ import org.apache.lucene.store.ByteBuffersDataOutput;
  * 落盘
  * {@link org.apache.lucene.codecs.compressing.CompressingStoredFieldsWriter#flush}
  * 首先 numChunks 记录当前是第几个块。
+ * 1、调用 {@link FieldsIndexWriter#writeIndex(int, long)} 文档数量、当前 fieldsStream 当前位置
+ * 2、将 endOffsets 修改为差值
+ * 3、如果大小大于 chunkSize 两倍。
+ * 4、调用 writeHeader 写 fdt 文件，当前chunk 的head 内容
+ * 5、通过 {@link  Compressor} 将{@link ByteBuffersDataOutput} 写入文件
+ *
+ *
+ *
+ * {@link org.apache.lucene.codecs.compressing.CompressingStoredFieldsWriter#finish}
+ * 完成当前 段后调用
+ * 1、 如果有未落盘文件，调用flush
+ * 2、调用 {@link FieldsIndexWriter#finish}
+ * 3、写 metaStream、fieldsStream 文件结尾
  *
  *
  *
