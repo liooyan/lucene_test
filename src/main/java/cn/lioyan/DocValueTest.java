@@ -96,6 +96,7 @@ public class DocValueTest
         // use a string field for isbn because we don't want it tokenized
         doc.add(new StringField("isbn", isbn, Field.Store.YES));
         doc.add(new SortedDocValuesField("title",new BytesRef(title)));
+        doc.add(new BinaryDocValuesField("title2",new BytesRef(title)));
         if (!title.equals("C++ api")){
             doc.add(new NumericDocValuesField("visit", visit));
         }
