@@ -5,7 +5,8 @@ package cn.lioyan.lucene.index;
  *<pre>
  *
  *
- *
+ * {@link org.apache.lucene.index.DefaultIndexingChain.PerField#invert}
+ * 反向索引，每个字段都是一个单独的对象
  *
  *</pre>
  * @author com.lioyan
