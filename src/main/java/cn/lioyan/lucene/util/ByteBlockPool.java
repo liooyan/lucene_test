@@ -1,5 +1,8 @@
 package cn.lioyan.lucene.util;
 
+import org.apache.lucene.util.BytesRef;
+
+
 /**
  * {@link org.apache.lucene.util.ByteBlockPool}
  *<pre>
@@ -32,8 +35,8 @@ package cn.lioyan.lucene.util;
  *      申请新的空闲空间，并腾出4个空间，记录下一个的索引
  *
  *
- *
- *
+ * {@link org.apache.lucene.util.ByteBlockPool#setBytesRef(BytesRef, int)}
+ *      将 int 位 的内容设置到BytesRef ，他的第一位位长度
  *
  *TODO 对于读取，目前没碰到。后面详细解析
  *

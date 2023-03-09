@@ -16,6 +16,8 @@ public class FreqProxFields
     /**
      *  {@link org.apache.lucene.index.FreqProxFields.FreqProxTermsEnum}
      *
+     *  next 获取下一个term的词
+     *  通过 ParallelPostingsArray对象 获取的这个词在bytePool的下标
      *
      *
      */

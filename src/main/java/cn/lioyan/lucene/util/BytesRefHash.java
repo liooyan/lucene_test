@@ -11,6 +11,8 @@ import org.apache.lucene.util.BytesRef;
  *     如果已经存在，返回的 是 +1 取反
  *
  *
+ *      ids 当前桶存储的 id
+ *      bytesStart 记录 当前 id 在bytePool中的位置
  * </pre>
  * @author com.lioyan
  * @date 2023/2/27  13:51
@@ -28,6 +30,7 @@ public class BytesRefHash
          liyan = bytesRefHash.add(new BytesRef(new String("liyan3").getBytes()));
          liyan = bytesRefHash.add(new BytesRef(new String("liyan4").getBytes()));
          liyan = bytesRefHash.add(new BytesRef(new String("liyan5").getBytes()));
+        bytesRefHash.sort();
         System.out.println(liyan);
 
     }
