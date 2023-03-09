@@ -80,6 +80,7 @@ public class TermsHashPerField {
     private static void addDoc(IndexWriter w, String title) throws IOException {
         Document doc = new Document();
         doc.add(new TextField("title", title, Field.Store.YES));
+        doc.add(new TextField("title2", title, Field.Store.YES));
 
         w.addDocument(doc);
     }

@@ -1,8 +1,16 @@
 package cn.lioyan.lucene.index;
 
+
+
 /**
  * {@link org.apache.lucene.index.DefaultIndexingChain}
  *<pre>
+ *
+ * 核心类
+ *
+ * 构造函数：
+ *      创建 {@link org.apache.lucene.index.FreqProxTermsWriter} 他的addField 方法创建了{@link FreqProxTermsWriterPerField}对象，存储倒排索引
+ *
  *
  *
  * {@link org.apache.lucene.index.DefaultIndexingChain.PerField#invert}
