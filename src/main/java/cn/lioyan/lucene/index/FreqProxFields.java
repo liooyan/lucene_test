@@ -27,4 +27,28 @@ public class FreqProxFields
     public static class FreqProxTermsEnum{
 
     }
+
+
+    /**
+     *  {@link org.apache.lucene.index.FreqProxFields.FreqProxDocsEnum}
+     *
+     *  读取不统计频率的 docid
+     *  通过{@link ByteSliceReader} 读取bytepool中的数据
+     *
+     *
+     */
+    public static class FreqProxDocsEnum{
+
+    }
+    /**
+     *  {@link org.apache.lucene.index.FreqProxFields.FreqProxPostingsEnum}
+     *
+     *  读取统计频率、和postings的 docid、prox、posting
+     *  与 FreqProxDocsEnum 逻辑类似
+     *
+     *
+     */
+    public static class FreqProxPostingsEnum{
+
+    }
 }
