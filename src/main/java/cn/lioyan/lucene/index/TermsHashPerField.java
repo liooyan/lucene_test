@@ -23,7 +23,7 @@ import java.nio.file.Paths;
  * 基本逻辑：
  *     bytePool:  所有写入的具体内容都在这里;具体写入的内容包括freq, pos ,offset, payload
  *     streamCount： 存储几种不通类型
- *     intPool ： 记录当前正在使用的steam在bytePool 的索引
+ *     intPool ： bytePool已经使用的索引
  *     postingsArray.addressOffset : 记录termId 到 intPool 的映射
  *     postingsArray.byteStarts： 记录termId 到 bytePool 的映射。
  *

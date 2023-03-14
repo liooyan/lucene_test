@@ -3,7 +3,10 @@ package cn.lioyan.lucene.index;
 /**
  * {@link org.apache.lucene.index.FreqProxFields}
  *<pre>
- *     分词字段集合，内部包含  Map<String,FreqProxTermsWriterPerField> 。保存分词结果
+ *     分词字段集合，内部类：
+ *     1、 FreqProxTermsEnum term的迭代器
+ *     2、FreqProxDocsEnum 某个term下的doc迭代器
+ *     3、FreqProxPostingsEnum Postings 迭代器
  *
  *
  *</pre>

@@ -12,7 +12,9 @@ package cn.lioyan.lucene.index;
  *
  * 其他几个关键内容
  *      {@link org.apache.lucene.index.ParallelPostingsArray}
- *      textStarts  termId 在 bytePool开始位置
+ *      textStarts  termId的 文本 在 bytePool开始位置
+ *      byteStarts  termId的 记录的结果在  bytePool开始位置
+ *      addressOffset  termId 在 IntBlockPool的开始位置
  *
  *</pre>
  *
