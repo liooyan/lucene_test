@@ -72,16 +72,22 @@ public class DocValueTest
         int hitsPerPage = 10;
         IndexReader reader = DirectoryReader.open(directory);
         IndexSearcher searcher = new IndexSearcher(reader);
-        TopDocs docs = searcher.search(q, hitsPerPage, sort);
-        ScoreDoc[] hits = docs.scoreDocs;
+        for (int i = 0; i < 3; i++)
+        {
+            long startTime = System.currentTimeMillis();
+            TopDocs docs = searcher.search(q, hitsPerPage, sort);
+            ScoreDoc[] hits = docs.scoreDocs;
 
-        // 4. display results
-        System.out.println("Found " + hits.length + " hits.");
-        for(int i=0;i<hits.length;++i) {
-            int docId = hits[i].doc;
-            Document d = searcher.doc(docId);
-            System.out.println((i + 1) + ". " + d.get("isbn") + "\t" + d.get("title") + "\t" + d.get("visit"));
+            // 4. display results
+            System.out.println("Found " + hits.length + " hits.");
+            for(int j=0;j<hits.length;++j) {
+                int docId = hits[j].doc;
+                Document d = searcher.doc(docId);
+                System.out.println((j + 1) + ". " + d.get("isbn") + "\t" + d.get("title") + "\t" + d.get("visit"));
+            }
+            System.out.println("查询时间："+ (System.currentTimeMillis()-startTime));
         }
+
 
         // reader can only be closed when there
         // is no need to access the documents any more.
@@ -90,11 +96,11 @@ public class DocValueTest
 
     private static void addDoc(IndexWriter w, String title, String isbn, int visit, int [] sale_list, String []locations) throws IOException {
         Document doc = new Document();
-        doc.add(new StoredField("visit", visit));
+//        doc.add(new StoredField("visit", visit));
         doc.add(new TextField("title", title, Field.Store.YES));
 
         // use a string field for isbn because we don't want it tokenized
-//        doc.add(new StringField("isbn", isbn, Field.Store.YES));
+        doc.add(new StringField("isbn", isbn, Field.Store.YES));
         doc.add(new SortedDocValuesField("title",new BytesRef(title)));
         doc.add(new BinaryDocValuesField("title2",new BytesRef(title)));
         if (!title.equals("C++ api")){
