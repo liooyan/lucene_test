@@ -23,8 +23,8 @@ public class FSTTest
     {
         try
         {
-            String inputValues[] = {"cat", "deep", "do", "dog", "dogs","adogsg"};
-            long outputValues[] = {5, 7, 17, 18, 21,99};
+            String inputValues[] = {"cat", "deep", "do", "dog", "dogs"};
+            long outputValues[] = {5, 7, 17, 3, 21};
             PositiveIntOutputs outputs = PositiveIntOutputs.getSingleton();
             Builder<Long> builder = new Builder<>(FST.INPUT_TYPE.BYTE1, outputs);
             BytesRefBuilder scratchBytes = new BytesRefBuilder();
@@ -36,7 +36,7 @@ public class FSTTest
                 builder.add(intsRef, outputValues[i]);
             }
             FST<Long> fst = builder.finish();
-            Long value = Util.get(fst, new BytesRef("dogsg"));
+            Long value = Util.get(fst, new BytesRef("dog"));
             long ramBytes = fst.ramBytesUsed();
             System.out.println(value); // 18
             System.out.println(ramBytes);
