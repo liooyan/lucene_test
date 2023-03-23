@@ -11,8 +11,8 @@ import org.apache.lucene.index.Fields;
  * {@link org.apache.lucene.codecs.blocktree.BlockTreeTermsWriter#write(Fields, NormsProducer)}
  *      在分词刷新时调用
  *
- *
- *
+ * {@link org.apache.lucene.codecs.blocktree.BlockTreeTermsWriter.TermsWriter#finish}
+ *      完成一个term后调用
  *
  *</pre>
  * @author com.lioyan
