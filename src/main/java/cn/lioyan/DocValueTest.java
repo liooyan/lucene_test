@@ -55,15 +55,14 @@ public class DocValueTest
 //        }
         for (int i = 0; i < 200000; i++)
         {
-            addDoc(w, "Lucene1 Lucene12 Lucene134", "193398817", -5, new int[]{1,2}, new String[]{"los angles", "beijing"});
             addDoc(w, "Lucene14 Lucene149 Lucene1454", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
             addDoc(w, "Lucene14541 Lucene14546", "55063554A", 12, new int[]{0, 1, 2}, new String[]{"shenzhen", "guangzhou"});
-            addDoc(w, "Lucene1451 Lucene1452", "9900333X", 2, new int[]{10, 4, 3}, new String[]{"shanghai", "los angles"});
-            addDoc(w, "Lucenea Luceneb", "914324235", 11, new int[]{0, 5, 2, 3}, new String[]{"beijing", "shenzhen"});
-            addDoc(w, "Lucenebc Lucenebd Lucenebe Lucenebf Luceneg", "fdsjfa2313", 1, new int[]{0, 1, 2, 4}, new String[]{"nanjing", "tianjin"});
-            addDoc(w, "Lucenegaa Lucenegab Lucenegac", "fdsfaf", 10, new int[]{0, 1, 2}, new String[]{"shenzhen", "guangzhou"});
-            addDoc(w, "Lucenegad", "411223432", 2, new int[]{0, 11, 2}, new String[]{"shenzhen", "shanghai"});
-            addDoc(w, "Lucenegfw", "914324236", 50, new int[]{3,2,6,1}, new String[]{"beijing"});
+            addDoc(w, "Lucene1451 Lucene1452", "9900333X LuceneA1451 LucenB1451", 2, new int[]{10, 4, 3}, new String[]{"shanghai", "los angles"});
+            addDoc(w, "Lucenea Luceneb", "914324235 LucenC1451", 11, new int[]{0, 5, 2, 3}, new String[]{"beijing", "shenzhen"});
+            addDoc(w, "Lucenebc Lucenebd LucenR1451 Lucenebe Lucenebf Luceneg", "fdsjfa2313", 1, new int[]{0, 1, 2, 4}, new String[]{"nanjing", "tianjin"});
+            addDoc(w, "Lucenegaa Lucenegab LucenFF451 Lucenegac", "fdsfaf", 10, new int[]{0, 1, 2}, new String[]{"shenzhen", "guangzhou"});
+            addDoc(w, "Lucenegad Lucenx1451", "411223432", 2, new int[]{0, 11, 2}, new String[]{"shenzhen", "shanghai"});
+            addDoc(w, "Lucenegfw LucenZ1451 Lucenq1451 Lucenw1451 Lucene1451 Lucenr1451", "914324236", 50, new int[]{3,2,6,1}, new String[]{"beijing"});
 
         }
         w.close();

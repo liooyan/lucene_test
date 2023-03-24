@@ -12,7 +12,11 @@ import org.apache.lucene.index.Fields;
  *      在分词刷新时调用
  *
  * {@link org.apache.lucene.codecs.blocktree.BlockTreeTermsWriter.TermsWriter#finish}
- *      完成一个term后调用
+ *      完成一个term后调用，在这里完成对fst 的建立
+ *
+ *
+ *
+ *
  *
  *</pre>
  * @author com.lioyan
