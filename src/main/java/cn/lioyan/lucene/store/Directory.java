@@ -1,5 +1,13 @@
 package cn.lioyan.lucene.store;
 
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.IOContext;
+import org.apache.lucene.store.IndexOutput;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+
+
 /**
  * {@link org.apache.lucene.store.Directory}
  *<pre>
@@ -16,4 +24,18 @@ package cn.lioyan.lucene.store;
  */
 public class Directory
 {
+
+    public static void main(String[] args)
+        throws IOException
+    {
+        org.apache.lucene.store.Directory directory = FSDirectory.open(Paths.get("tempPath"));
+        String[] strings = directory.listAll();
+        System.out.println(strings);
+
+        IndexOutput test = directory.createOutput("test", IOContext.DEFAULT);
+
+        test.writeByte((byte)'a');
+
+        test.close();
+    }
 }

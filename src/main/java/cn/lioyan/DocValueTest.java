@@ -33,11 +33,11 @@ static  Random random = new Random(100);
     public static void MAIN() throws IOException {
 //        // 0. Specify the analyzer for tokenizing text.
 //        //    The same analyzer should be used for indexing and searching
-//        StandardAnalyzer analyzer = new StandardAnalyzer();
+        StandardAnalyzer analyzer = new StandardAnalyzer();
 //
 //        // 1. create the index
         Directory directory = FSDirectory.open(Paths.get("tempPath"));
-//
+
 //        IndexWriterConfig config = new IndexWriterConfig(analyzer);
 //        config.setUseCompoundFile(false);
 //        IndexWriter w = new IndexWriter(directory, config);
@@ -66,7 +66,7 @@ static  Random random = new Random(100);
 //        MatchAllDocsQuery q = new MatchAllDocsQuery();
 
         //sort
-        SortField visitSort = new SortedNumericSortField("visit", SortField.Type.INT, false);
+        SortField visitSort = new SortedNumericSortField("visit", SortField.Type.INT, true);
         Sort sort = new Sort(visitSort);
 
         // 3. search
@@ -84,7 +84,7 @@ static  Random random = new Random(100);
             for(int j=0;j<hits.length;++j) {
                 int docId = hits[j].doc;
                 Document d = searcher.doc(docId);
-                System.out.println((j + 1) + ". " + d.get("isbn") + "\t" + d.get("title") + "\t" + d.get("visit"));
+                System.out.println(docId + ". " + d.get("isbn") + "\t" + d.get("title") + "\t" + d.get("visit"));
             }
             System.out.println("查询时间："+ (System.currentTimeMillis()-startTime));
         }
@@ -99,12 +99,13 @@ static  Random random = new Random(100);
         Document doc = new Document();
 //        doc.add(new StoredField("visit", visit));
         doc.add(new TextField("title", title, Field.Store.YES));
+        doc.add(new TextField("title", title, Field.Store.YES));
 
         // use a string field for isbn because we don't want it tokenized
         doc.add(new StringField("isbn", isbn, Field.Store.YES));
         doc.add(new SortedDocValuesField("title",new BytesRef(title)));
-        doc.add(new BinaryDocValuesField("title2",new BytesRef(title)));
-        doc.add(new SortedNumericDocValuesField("visit", visit));
+        doc.add(new NumericDocValuesField("visit", visit));
+        doc.add(new StoredField("visit", visit));
         for (int sale : sale_list){
             doc.add(new SortedNumericDocValuesField("sale", sale));
             doc.add(new SortedNumericDocValuesField("sale", sale));
