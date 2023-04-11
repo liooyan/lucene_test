@@ -1,5 +1,7 @@
 package cn.lioyan.lucene.util.packed;
 
+import java.util.Random;
+
 
 /**
  * {@link org.apache.lucene.util.packed.PackedLongValues}
@@ -15,18 +17,17 @@ package cn.lioyan.lucene.util.packed;
  */
 public class PackedLongValues {
 
+    static Random random = new Random();
     public static void main(String[] args) {
         org.apache.lucene.util.packed.PackedLongValues.Builder builder =  org.apache.lucene.util.packed.PackedLongValues.packedBuilder(256, 0.0F);
 
-        for (int i = 0; i < 100000 ; i++) {
-            builder.add(System.currentTimeMillis());
-            builder.add(System.currentTimeMillis());
-            builder.add(System.currentTimeMillis());
+
+        for (int i = 0; i < 1000000 ; i++) {
+            builder.add(random.nextInt(10000));
         }
+        org.apache.lucene.util.packed.PackedLongValues packedLongValues = builder.build();
 
-        org.apache.lucene.util.packed.PackedLongValues build = builder.build();
-
-        org.apache.lucene.util.packed.PackedLongValues.Iterator iterator = build.iterator();
+        org.apache.lucene.util.packed.PackedLongValues.Iterator iterator = packedLongValues.iterator();
 
         while (iterator.hasNext()){
             System.out.println(iterator.next());

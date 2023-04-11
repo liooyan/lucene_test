@@ -11,4 +11,17 @@ package cn.lioyan.lucene.util;
  */
 public class FixedBitSet
 {
+    public static void main(String[] args)
+    {
+        org.apache.lucene.util.FixedBitSet fixedBitSet = new org.apache.lucene.util.FixedBitSet(300);
+        fixedBitSet.set(1);
+        fixedBitSet.set(2);
+        fixedBitSet.set(3);
+        fixedBitSet.set(4);
+        fixedBitSet.set(5);
+        fixedBitSet.set(6);
+
+        boolean have7 = fixedBitSet.get(7);
+        System.out.println(have7);
+    }
 }

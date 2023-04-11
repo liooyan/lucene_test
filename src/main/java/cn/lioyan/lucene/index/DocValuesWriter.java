@@ -2,6 +2,10 @@ package cn.lioyan.lucene.index;
 
 import org.apache.lucene.index.DocValuesType;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 
 /**
  * {@link org.apache.lucene.index.DocValuesWriter}
@@ -20,4 +24,9 @@ import org.apache.lucene.index.DocValuesType;
  *</pre>
  */
 public class DocValuesWriter {
+    public static void main(String[] args)
+        throws FileNotFoundException
+    {
+
+    }
 }

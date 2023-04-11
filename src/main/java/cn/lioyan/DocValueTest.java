@@ -38,23 +38,25 @@ static  Random random = new Random(100);
 //        // 1. create the index
         Directory directory = FSDirectory.open(Paths.get("tempPath"));
 
-//        IndexWriterConfig config = new IndexWriterConfig(analyzer);
-//        config.setUseCompoundFile(false);
-//        IndexWriter w = new IndexWriter(directory, config);
-//        for (int i = 0; i < 200000; i++)
-//        {
-//            addDoc(w, "Lucene Lucene in Action", "193398817", -5, new int[]{1,2}, new String[]{"los angles", "beijing"});
-//            addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
-//            addDoc(w, "Managing Gigabytes", "55063554A", 12, new int[]{0, 1, 2}, new String[]{"shenzhen", "guangzhou"});
-//            addDoc(w, "The Art of Computer Science", "9900333X", 2, new int[]{10, 4, 3}, new String[]{"shanghai", "los angles"});
-//            addDoc(w, "C++ Primer", "914324235", 11, new int[]{0, 5, 2, 3}, new String[]{"beijing", "shenzhen"});
-//            addDoc(w, "I like Lucene", "fdsjfa2313", 1, new int[]{0, 1, 2, 4}, new String[]{"nanjing", "tianjin"});
-//            addDoc(w, "Lucene and C++ Primer", "fdsfaf", 10, new int[]{0, 1, 2}, new String[]{"shenzhen", "guangzhou"});
-//            addDoc(w, "C++ api", "411223432", 2, new int[]{0, 11, 2}, new String[]{"shenzhen", "shanghai"});
-//            addDoc(w, "C++ Primer", "914324236", 50, new int[]{3,2,6,1}, new String[]{"beijing"});
-//
-//        }
-//        w.close();
+        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        config.setUseCompoundFile(false);
+//        SortedSetSortField sortedSetSortField = new SortedSetSortField("title",true,SortedSetSelector.Type.MIN);
+//        config.setIndexSort(new Sort(sortedSetSortField));
+        IndexWriter w = new IndexWriter(directory, config);
+        for (int i = 0; i < 200000; i++)
+        {
+            addDoc(w, "Lucene Lucene in Action", "193398817", -5, new int[]{1,2}, new String[]{"los angles", "beijing"});
+            addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[]{5,1}, new String[]{"shanghai", "beijing"});
+            addDoc(w, "Managing Gigabytes", "55063554A", 12, new int[]{0, 1, 2}, new String[]{"shenzhen", "guangzhou"});
+            addDoc(w, "The Art of Computer Science", "9900333X", 2, new int[]{10, 4, 3}, new String[]{"shanghai", "los angles"});
+            addDoc(w, "C++ Primer", "914324235", 11, new int[]{0, 5, 2, 3}, new String[]{"beijing", "shenzhen"});
+            addDoc(w, "I like Lucene", "fdsjfa2313", 1, new int[]{0, 1, 2, 4}, new String[]{"nanjing", "tianjin"});
+            addDoc(w, "Lucene and C++ Primer", "fdsfaf", 10, new int[]{0, 1, 2}, new String[]{"shenzhen", "guangzhou"});
+            addDoc(w, "C++ api", "411223432", 2, new int[]{0, 11, 2}, new String[]{"shenzhen", "shanghai"});
+            addDoc(w, "C++ Primer", "914324236", 50, new int[]{3,2,6,1}, new String[]{"beijing"});
+
+        }
+        w.close();
 
         // 2. query
         String querystr =  "primer";
@@ -66,7 +68,7 @@ static  Random random = new Random(100);
 //        MatchAllDocsQuery q = new MatchAllDocsQuery();
 
         //sort
-        SortField visitSort = new SortedNumericSortField("visit", SortField.Type.INT, true);
+        SortField visitSort = new SortedNumericSortField("visit", SortField.Type.INT, false);
         Sort sort = new Sort(visitSort);
 
         // 3. search
@@ -94,18 +96,20 @@ static  Random random = new Random(100);
         // is no need to access the documents any more.
         reader.close();
     }
-
     private static void addDoc(IndexWriter w, String title, String isbn, int visit, int [] sale_list, String []locations) throws IOException {
         Document doc = new Document();
 //        doc.add(new StoredField("visit", visit));
         doc.add(new TextField("title", title, Field.Store.YES));
         doc.add(new TextField("title", title, Field.Store.YES));
+        int visit2 = random.nextInt(10000);
 
         // use a string field for isbn because we don't want it tokenized
         doc.add(new StringField("isbn", isbn, Field.Store.YES));
         doc.add(new SortedDocValuesField("title",new BytesRef(title)));
-        doc.add(new NumericDocValuesField("visit", visit));
-        doc.add(new StoredField("visit", visit));
+        if(visit2 != 33){
+            doc.add(new NumericDocValuesField("visit", visit2));
+            doc.add(new StoredField("visit", visit2));
+        }
         for (int sale : sale_list){
             doc.add(new SortedNumericDocValuesField("sale", sale));
             doc.add(new SortedNumericDocValuesField("sale", sale));
