@@ -22,11 +22,11 @@ import java.io.FileNotFoundException;
  * 分别是通过 addValue 方法执行。
  * flush 方法是在当前段完成时调用。
  *</pre>
- */
-public class DocValuesWriter {
+  */
+ public class DocValuesWriter {
     public static void main(String[] args)
         throws FileNotFoundException
     {
 
     }
-}
+ }
