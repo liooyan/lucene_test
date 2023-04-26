@@ -2,10 +2,7 @@ package cn.lioyan;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.LeafReaderContext;
+import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
@@ -45,23 +42,23 @@ public class DocValueTest
         //        // 1. create the index
         Directory directory = FSDirectory.open(Paths.get("tempPath"));
 
-        //                IndexWriterConfig config = new IndexWriterConfig(analyzer);
-        //                config.setUseCompoundFile(false);
-        //                IndexWriter w = new IndexWriter(directory, config);
-        //                for (int i = 0; i < 200000; i++)
-        //                {
-        //                    addDoc(w, "Lucene Lucene in Action", "193398817", -5, new int[] {1, 2}, new String[] {"los angles", "beijing"});
-        //                    addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[] {5, 1}, new String[] {"shanghai", "beijing"});
-        //                    addDoc(w, "Managing Gigabytes", "55063554A", 12, new int[] {0, 1, 2}, new String[] {"shenzhen", "guangzhou"});
-        //                    addDoc(w, "The Art of Computer Science", "9900333X", 2, new int[] {10, 4, 3}, new String[] {"shanghai", "los angles"});
-        //                    addDoc(w, "C++ Primer", "914324235", 11, new int[] {0, 5, 2, 3}, new String[] {"beijing", "shenzhen"});
-        //                    addDoc(w, "I like Lucene", "fdsjfa2313", 1, new int[] {0, 1, 2, 4}, new String[] {"nanjing", "tianjin"});
-        //                    addDoc(w, "Lucene and C++ Primer", "fdsfaf", 10, new int[] {0, 1, 2}, new String[] {"shenzhen", "guangzhou"});
-        //                    addDoc(w, "C++ api", "411223432", 2, new int[] {0, 11, 2}, new String[] {"shenzhen", "shanghai"});
-        //                    addDoc(w, "C++ Primer", "914324236", 50, new int[] {3, 2, 6, 1}, new String[] {"beijing"});
-        //
-        //                }
-        //                w.close();
+//        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+//        config.setUseCompoundFile(false);
+//        IndexWriter w = new IndexWriter(directory, config);
+//        for (int i = 0; i < 200000; i++)
+//        {
+//            addDoc(w, "Lucene Lucene in Action", "193398817", -5, new int[] {1, 2}, new String[] {"los angles", "beijing"});
+//            addDoc(w, "Lucene for Dummies", "55320055Z", 4, new int[] {5, 1}, new String[] {"shanghai", "beijing"});
+//            addDoc(w, "Managing Gigabytes", "55063554A", 12, new int[] {0, 1, 2}, new String[] {"shenzhen", "guangzhou"});
+//            addDoc(w, "The Art of Computer Science", "9900333X", 2, new int[] {10, 4, 3}, new String[] {"shanghai", "los angles"});
+//            addDoc(w, "C++ Primer", "914324235", 11, new int[] {0, 5, 2, 3}, new String[] {"beijing", "shenzhen"});
+//            addDoc(w, "I like Lucene", "fdsjfa2313", 1, new int[] {0, 1, 2, 4}, new String[] {"nanjing", "tianjin"});
+//            addDoc(w, "Lucene and C++ Primer", "fdsfaf", 10, new int[] {0, 1, 2}, new String[] {"shenzhen", "guangzhou"});
+//            addDoc(w, "C++ api", "411223432", 2, new int[] {0, 11, 2}, new String[] {"shenzhen", "shanghai"});
+//            addDoc(w, "C++ Primer", "914324236", 50, new int[] {3, 2, 6, 1}, new String[] {"beijing"});
+//
+//        }
+//        w.close();
 
         // 2. query
         String querystr = "primer";
@@ -76,7 +73,9 @@ public class DocValueTest
 
         BooleanQuery.Builder b = new BooleanQuery.Builder();
         b.add(q, BooleanClause.Occur.SHOULD);
-        b.add(q2, BooleanClause.Occur.SHOULD);
+        b.add(q2, BooleanClause.Occur.MUST_NOT);
+        b.setMinimumNumberShouldMatch(1);
+        BooleanQuery query = b.build();
         //sort
         SortField visitSort = new SortedNumericSortField("visit", SortField.Type.INT, true);
         Sort sort = new Sort();
@@ -87,10 +86,11 @@ public class DocValueTest
         IndexSearcher searcher = new IndexSearcher(reader);
         List<LeafReaderContext> leaves = reader.getContext().leaves();
 
-        Weight weight = q.createWeight(searcher, ScoreMode.COMPLETE_NO_SCORES, 1);
+        Weight weight = query.createWeight(searcher, ScoreMode.COMPLETE_NO_SCORES, 1);
         //        weight.scorer(reader.getContext());
         //        weight.
-        long startTime = System.currentTimeMillis();
+
+
         for (LeafReaderContext leaf : leaves)
         {
             Scorer scorer = weight.scorer(leaf);
@@ -105,7 +105,6 @@ public class DocValueTest
                 System.out.println(doc);
             }
         }
-        System.out.println("查询时间：" + (System.currentTimeMillis() - startTime));
         //                for (int i = 0; i < 3; i++)
         //        {
         //            long startTime = System.currentTimeMillis();
@@ -139,7 +138,7 @@ public class DocValueTest
 
         // use a string field for isbn because we don't want it tokenized
         doc.add(new StringField("isbn", isbn, Field.Store.YES));
-        if (visit2 != 33)
+        if (visit2 == 33 || visit2 == 43)
         {
             doc.add(new NumericDocValuesField("visit", visit2));
             doc.add(new StoredField("visit", visit2));
