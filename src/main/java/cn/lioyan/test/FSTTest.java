@@ -23,7 +23,7 @@ public class FSTTest
     {
         try
         {
-            String inputValues[] = {"cat", "deep", "do", "dog", "dogs"};
+            String inputValues[] = {"cat", "cae", "do", "dog", "dogs"};
             long outputValues[] = {5, 7, 17, 3, 21};
             PositiveIntOutputs outputs = PositiveIntOutputs.getSingleton();
             Builder<Long> builder = new Builder<>(FST.INPUT_TYPE.BYTE1, outputs);
