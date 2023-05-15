@@ -26,12 +26,12 @@ public class EncryptUtils {
      * @return 加密字符串
      * @throws Exception 异常信息
      */
-    public static String aes256ECBPkcs7PaddingEncrypt(String str, String key) throws Exception {
+    public static byte[]  aes256ECBPkcs7PaddingEncrypt(  byte[] encryptByte , String key) throws Exception {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(keyBytes, SECRET));
-        byte[] doFinal = cipher.doFinal(str.getBytes(StandardCharsets.UTF_8));
-        return new String(Base64.getEncoder().encode(doFinal));
+        byte[] doFinal = cipher.doFinal(encryptByte);
+        return doFinal;
     }
 
     /**
@@ -50,16 +50,18 @@ public class EncryptUtils {
     }
     public static void main(String[] args) throws Exception {
 
-        File file = new File("C:\\Users\\Administrator\\Desktop\\configuration\\rules.json");
+        File file = new File("C:\\Users\\Administrator\\Desktop\\各种软件\\fsdownload\\configuration\\111-out.txt");
 
         byte[] encryptByte = FileUtil.readBytes(file);
 
 
-//        System.out.println("字符串：" + str);
-//        String encryptStr = EncryptUtils.aes256ECBPkcs7PaddingEncrypt(str, "wondersoft--2021");
-//        System.out.println("加密后字符串：" + encryptStr);
-        String decryptStr = EncryptUtils.aes256ECBPkcs7PaddingDecrypt(encryptByte, "wondersoft--2021");
-        System.out.println("解密后字符串：" + decryptStr);
+//        String decryptStr = EncryptUtils.aes256ECBPkcs7PaddingDecrypt(encryptByte, "wondersoft--2021");
+//        System.out.println("解密后字符串：" + decryptStr);
+        byte[] bytes = EncryptUtils.aes256ECBPkcs7PaddingEncrypt(encryptByte, "wondersoft--2021");
+
+
+        FileUtil.writeBytes(bytes,"C:\\Users\\Administrator\\Desktop\\各种软件\\fsdownload\\configuration\\strategy-test.json");
+
     }
 
 }
